@@ -1,0 +1,12 @@
+#!/bin/bash
+
+TIMESTAMP2=`date --date="1 day ago" +%Y-%m-%d`
+
+echo $TIMESTAMP2;
+
+base_name=$(cat /opt/repository/ris/application/config/proradis_config.php | grep "server_external_access_address" | head -1 | cut -d"." -f1 | cut -d"'" -f4);
+
+echo $base_name;
+
+echo "Copiando BackUp mais recente"
+rclone copy /backup/db/$TIMESTAMP2/ backblaze:batman-uB/Storage/databases/$base_name/$TIMESTAMP2
