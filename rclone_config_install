@@ -17,7 +17,7 @@ mv rclone_cron.php rclone_cron
 chmod +x rclone_cron
 
 echo "Configurando ligação com o Bucket"
-rclone config create backblaze b2 account be91b5bd7ee5 key 0007c9695b33f2447cb3ec8ee9c280c4a40e0cc0fe
+rclone config create backblaze b2 account xxxxxxx key xxxxxxxxxxxxxxx
 
 echo "Copiando BackUp mais recente"
 rclone copy /backup/db/$TIMESTAMP2/ backblaze:batman-uB/Storage/databases/$base_name/$TIMESTAMP2
