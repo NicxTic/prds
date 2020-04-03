@@ -1,0 +1,31 @@
+#!/bin/bash
+
+TIMESTAMP2=`date --date="1 day ago" +%Y-%m-%d`
+
+echo $TIMESTAMP2;
+
+base_name=$(cat /opt/repository/ris/application/config/proradis_config.php | grep "server_external_access_address" | head -1 | cut -d"." -f1 | cut -d"'" -f4);
+
+echo $base_name;
+
+echo "Baixando RClone"
+curl https://rclone.org/install.sh | sudo bash
+
+echo "Baixando Arquivo de syncronização diária"
+wget https://www.dropbox.com/s/1chfz38i8oarch7/rclone_cron.php
+mv rclone_cron.php rclone_cron
+chmod +x rclone_cron
+
+echo "Configurando ligação com o Bucket"
+rclone config create backblaze b2 account be91b5bd7ee5 key 0007c9695b33f2447cb3ec8ee9c280c4a40e0cc0fe
+
+echo "Copiando BackUp mais recente"
+rclone copy /backup/db/$TIMESTAMP2/ backblaze:batman-uB/Storage/databases/$base_name/$TIMESTAMP2
+
+
+
+echo " ------------------------------"
+echo "|Adicione esta linha ao Crontab|"
+echo " ---------------------------------------"
+echo "|22 40 * * * /home/proradis/rclone_cron |"
+echo " ---------------------------------------"
