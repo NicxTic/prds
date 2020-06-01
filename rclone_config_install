@@ -24,6 +24,7 @@ rclone copy /backup/db/$TIMESTAMP2/ backblaze:batman-uB/Storage/databases/$base_
 
 
 
+
 echo " ------------------------------"
 echo "|Adicione esta linha ao Crontab|"
 echo " ---------------------------------------"
