@@ -1,0 +1,91 @@
+#!/bin/bash                                                                                                                                                                                                                                                            [21/1452]
+caminho="/seu/caminho"                                                                                                                                                                                                                                                          
+caminho_log="/storage/dcmsnd.log"                                                                                                                                                                                                                                               
+                                                                                                                                                                                                                                                                                
+for arg in "$@"                                                                                                                                                                                                                                                                 
+do                                                                                                                                                                                                                                                                              
+        case $arg in                                                                                                                                                                                                                                                            
+                -p=*|--path=*)                                                                                                                                                                                                                                                  
+                        caminho="${arg#*=}";                                                                                                                                                                                                                                    
+                        echo "Caminho selecionado" $caminho;                                                                                                                                                                                                                    
+                        shift                                                                                                                                                                                                                                                   
+                ;;                                                                                                                                                                                                                                                              
+                -l=*|--log=*)                                                                                                                                                                                                                                                   
+                        caminho_log="${arg#*=}";                                                                                                                                                                                                                                
+                        echo "Caminho selecionado" $caminho_log;                                                                                                                                                                                                                
+                        shift                                                                                                                                                                                                                                                   
+                ;;                                                                                                                                                                                                                                                              
+                -d|--dia)                                                                                                                                                                                                                                                       
+                        echo "tipo de envio -DIARIO- selecionado para a pasta" $caminho;                                                                                                                                                                                        
+                                                                                                                                                                                                                                                                                
+                        path=$caminho;                                                                                                                                                                                                                                          
+                        ls=$(ls $path);                                                                                                                                                                                                                                         
+
+                        for n in $ls
+                        do
+                                echo "Enviando imagens das $n hrs; " 
+                                /opt/repository/dcm/dcm4che/bin/dcmsnd DCM4CHEE@localhost:11112 $caminho/$n;
+                                data=$(date);
+                                echo $data $caminho"/"$n "enviado" >> $caminho_log;
+                        done;
+                        shift
+                ;;
+                -m|--mes)
+                        path=$caminho;
+                        ls=$(ls $path);
+                        for n in $ls
+                        do
+                                ls_x=$(ls $path"/"$n)
+                                for x in $ls_x
+                                do
+                                        echo "Enviando imagens das $x hrs; "
+                                        /opt/repository/dcm/dcm4che/bin/dcmsnd DCM4CHEE@localhost:11112 $caminho/$n/$x;
+                                        data=$(date);
+                                        echo $data $caminho"/"$n"/"$x "enviado" >> $caminho_log;
+                                done;
+                        done;
+                        shift
+                ;;
+                -a|--ano)
+
+                        path=$caminho;
+                        ls=$(ls $path);
+                        for n in $ls
+                        do
+                                ls_x=$(ls $path"/"$n)
+                                for x in $ls_x
+                                do
+                                        ls_y=$(ls $path"/"$n"/"$x);
+                                        for y in $ls_y
+                                        do
+                                                echo "Enviando imagens das $y hrs; "
+                                                /opt/repository/dcm/dcm4che/bin/dcmsnd DCM4CHEE@localhost:11112 $caminho/$n/$x/$y;
+                                                data=$(date);
+                                                echo $data $caminho"/"$n"/"$x"/"$y "enviado" >> $caminho_log;
+                                        done;
+                                done;
+                        done;
+                        shift
+
+                ;;
+                -h|--help)
+                        echo "-p=, --path=              Caminho das imagens em Dicom que serão enviadas \n
+                                 Ex: --path=/storage/archive/2099/1/1";
+                        echo "-d, --dia         Indica que a pasta final do path é um dia 
+                                 Ex:/storage/archive/2099/1/1";
+                        echo "-m, --mes         Indica que a pasta final do path é um mes 
+                                 Ex:/storage/archive/2099/1";
+                        echo "-a, --ano         Indica que a pasta final do path é um ano
+                                 Ex:/storage/archive/2099";
+                        echo "-l=, --log=               Indica o caminho que será armazenado o log de envio. Caso não seja adicionado o padrão será /storage/dcmsnd.log"
+                        echo "
+
+
+                                 Exemplo de uso: ./dcmsnd_custom2 --path=/teste/Pmedico/PDicom/Imagens/CR/2020 -a --log=/home/proradis/
+                                  Serão enviados todos os meses de 2020 e o log de envio será salvo em /home/proradis. indo pela cadeia horas.";
+                        shift
+                ;;
+        esac
+done;
+
+
