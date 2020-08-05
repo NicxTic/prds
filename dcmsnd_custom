@@ -81,9 +81,9 @@ do
 
                 ;;
                 -h|--help)
-                        echo "-p=, --path=              Caminho das imagens em Dicom que serão enviadas \n
+                        echo "-p=, --path=              Caminho das imagens em Dicom que serão enviadas 
                                  Ex: --path=/storage/archive/2099/1/1";
-                        echo "-P=, --port=              Configura porta que será usada para envio. Caso não seja selecionda será usada a padrão 11112 \n
+                        echo "-P=, --port=              Configura porta que será usada para envio. Caso não seja selecionda será usada a padrão 11112 
                                  Ex: --port=12321";
                         echo "-d, --dia         Indica que a pasta final do path é um dia 
                                  Ex:/storage/archive/2099/1/1";
