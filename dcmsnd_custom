@@ -1,6 +1,13 @@
 #!/bin/bash                                                                                                                                                                                                                                                            [21/1452]
+
+#A ideia do script é fazer com que o dcmsnd rode e suba as pastas a nível de hora no server
+# assim caso ele pare no meio saberemos exatamente onde parou pelo log e/ou se quisermos saber 
+# enquanto ele está rodando qual o progresso.
+# flag --help/ -h pra usar o comando.
+
 caminho="/seu/caminho"                                                                                                                                                                                                                                                          
-caminho_log="/storage/dcmsnd.log"                                                                                                                                                                                                                                               
+caminho_log="/storage/dcmsnd.log"    
+dcm_port="11112"
                                                                                                                                                                                                                                                                                 
 for arg in "$@"                                                                                                                                                                                                                                                                 
 do                                                                                                                                                                                                                                                                              
@@ -9,7 +16,12 @@ do
                         caminho="${arg#*=}";                                                                                                                                                                                                                                    
                         echo "Caminho selecionado" $caminho;                                                                                                                                                                                                                    
                         shift                                                                                                                                                                                                                                                   
-                ;;                                                                                                                                                                                                                                                              
+                ;;
+                 -P=*|--port=*)                                                                                                                                                                                                                                                  
+                        dcm_port="${arg#*=}";                                                                                                                                                                                                                                    
+                        echo "Porta" $dcm_port;                                                                                                                                                                                                                    
+                        shift                                                                                                                                                                                                                                                   
+                ;;                                        
                 -l=*|--log=*)                                                                                                                                                                                                                                                   
                         caminho_log="${arg#*=}";                                                                                                                                                                                                                                
                         echo "Caminho selecionado" $caminho_log;                                                                                                                                                                                                                
@@ -24,7 +36,7 @@ do
                         for n in $ls
                         do
                                 echo "Enviando imagens das $n hrs; " 
-                                /opt/repository/dcm/dcm4che/bin/dcmsnd DCM4CHEE@localhost:11112 $caminho/$n;
+                                /opt/repository/dcm/dcm4che/bin/dcmsnd DCM4CHEE@localhost:$dcm_port $caminho/$n;
                                 data=$(date);
                                 echo $data $caminho"/"$n "enviado" >> $caminho_log;
                         done;
@@ -39,7 +51,7 @@ do
                                 for x in $ls_x
                                 do
                                         echo "Enviando imagens das $x hrs; "
-                                        /opt/repository/dcm/dcm4che/bin/dcmsnd DCM4CHEE@localhost:11112 $caminho/$n/$x;
+                                        /opt/repository/dcm/dcm4che/bin/dcmsnd DCM4CHEE@localhost:$dcm_port $caminho/$n/$x;
                                         data=$(date);
                                         echo $data $caminho"/"$n"/"$x "enviado" >> $caminho_log;
                                 done;
@@ -59,7 +71,7 @@ do
                                         for y in $ls_y
                                         do
                                                 echo "Enviando imagens das $y hrs; "
-                                                /opt/repository/dcm/dcm4che/bin/dcmsnd DCM4CHEE@localhost:11112 $caminho/$n/$x/$y;
+                                                /opt/repository/dcm/dcm4che/bin/dcmsnd DCM4CHEE@localhost:$dcm_port $caminho/$n/$x/$y;
                                                 data=$(date);
                                                 echo $data $caminho"/"$n"/"$x"/"$y "enviado" >> $caminho_log;
                                         done;
@@ -71,6 +83,8 @@ do
                 -h|--help)
                         echo "-p=, --path=              Caminho das imagens em Dicom que serão enviadas \n
                                  Ex: --path=/storage/archive/2099/1/1";
+                        echo "-P=, --port=              Configura porta que será usada para envio. Caso não seja selecionda será usada a padrão 11112 \n
+                                 Ex: --port=12321";
                         echo "-d, --dia         Indica que a pasta final do path é um dia 
                                  Ex:/storage/archive/2099/1/1";
                         echo "-m, --mes         Indica que a pasta final do path é um mes 
@@ -82,7 +96,7 @@ do
 
 
                                  Exemplo de uso: ./dcmsnd_custom2 --path=/teste/Pmedico/PDicom/Imagens/CR/2020 -a --log=/home/proradis/
-                                  Serão enviados todos os meses de 2020 e o log de envio será salvo em /home/proradis. indo pela cadeia horas.";
+                                  Serão enviados todos os meses de 2020 e o log de envio será salvo em /home/proradis.";
                         shift
                 ;;
         esac
