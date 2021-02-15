@@ -1,0 +1,13 @@
+public function dropa_query(){
+
+                $result = mysql_query("SHOW FULL PROCESSLIST");
+                while ($row=mysql_fetch_array($result)) {
+                        $process_id=$row["Id"];
+                        if ($row["Time"] > 0 ) {
+                                $sql="KILL $process_id";
+                                mysql_query($sql);
+                        }
+
+                }pr('executado');
+
+        }
