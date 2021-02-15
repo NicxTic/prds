@@ -2,17 +2,17 @@ TIMESTAMP=`date +%Y-%m-%d`
 mv mv /opt/repository/dcm /opt/repository/dcm-$TIMESTAMP
 mkdir /opt/repository/dcm
 /opt/repository/dcm
-wget -O dcm4chee-2.17.3.zip 'https://www.dropbox.com/s/zie2q3la9w6sv2q/dcm4chee-2.17.3.zip?dl=1' &
-wget -O dcm4che-2.0.23.zip 'https://www.dropbox.com/s/gbavemny0kt6pq6/dcm4che-2.0.23.zip?dl=1' &
-wget -O jboss-4.2.3.zip 'https://www.dropbox.com/s/m35du5v40z2ff69/jboss-4.2.3.zip?dl=1' &
-wget -O oviyam-1.war 'https://www.dropbox.com/s/cxuec64yw2o8ced/oviyam-1.war?dl=1' &
-wget -O oviyam2.war 'https://www.dropbox.com/s/9dpyr8tskjath7n/oviyam2.war?dl=1' &
-wget -O libclib_jiio.so 'https://www.dropbox.com/s/g0rymals1boub3h/libclib_jiio.so?dl=1' &
-wget -O log2file.cfg 'https://www.dropbox.com/s/hmf4uijw783wnlu/log2file.cfg?dl=1' &
-wget -O dcm4chee-web-weasis.jar 'https://www.dropbox.com/s/fgpqtgrj21n3wfn/dcm4chee-web-weasis.jar?dl=1' &
-wget -O weasis-i18n.war 'https://www.dropbox.com/s/15wjw7pn7n50qbs/weasis-i18n.war?dl=1' &
-wget -O weasis-pacs-connector.war 'https://www.dropbox.com/s/re9kdg9ed0unz4t/weasis-pacs-connector.war?dl=1' &
-wget -O weasis.war 'https://www.dropbox.com/s/9wlqc3ny8ld0mch/weasis.war?dl=1' &
+wget -O dcm4chee-2.17.3.zip 'https://www.dropbox.com/s/zie2q3la9w6sv2q/dcm4chee-2.17.3.zip?dl=1' 
+wget -O dcm4che-2.0.23.zip 'https://www.dropbox.com/s/gbavemny0kt6pq6/dcm4che-2.0.23.zip?dl=1' 
+wget -O jboss-4.2.3.zip 'https://www.dropbox.com/s/m35du5v40z2ff69/jboss-4.2.3.zip?dl=1' 
+wget -O oviyam-1.war 'https://www.dropbox.com/s/cxuec64yw2o8ced/oviyam-1.war?dl=1' 
+wget -O oviyam2.war 'https://www.dropbox.com/s/9dpyr8tskjath7n/oviyam2.war?dl=1' 
+wget -O libclib_jiio.so 'https://www.dropbox.com/s/g0rymals1boub3h/libclib_jiio.so?dl=1' 
+wget -O log2file.cfg 'https://www.dropbox.com/s/hmf4uijw783wnlu/log2file.cfg?dl=1' 
+wget -O dcm4chee-web-weasis.jar 'https://www.dropbox.com/s/fgpqtgrj21n3wfn/dcm4chee-web-weasis.jar?dl=1' 
+wget -O weasis-i18n.war 'https://www.dropbox.com/s/15wjw7pn7n50qbs/weasis-i18n.war?dl=1' 
+wget -O weasis-pacs-connector.war 'https://www.dropbox.com/s/re9kdg9ed0unz4t/weasis-pacs-connector.war?dl=1' 
+wget -O weasis.war 'https://www.dropbox.com/s/9wlqc3ny8ld0mch/weasis.war?dl=1' 
 
 unzip dcm4chee-2.17.3.zip
 mv dcm4chee-2.17.3-mysql dcm4chee
