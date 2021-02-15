@@ -1,0 +1,35 @@
+#!/bin/bash
+#While infinito que envia uma imagem pré selecionada, caso a imagem de OK segue a vida, caso não reinicia o dcm.
+#O Ideal é deixar em segundo plano ou em uma screen
+
+while :; do
+#echo "teste";
+
+
+conected=$(/opt/repository/dcm/dcm4che/bin/dcmsnd DCM4CHEE@localhost:11112 /storage/archive/2020/8/10/10/1CCB4521/56386D9B | grep Connected | cut -d" " -f1)
+
+
+
+if [ $conected = "Connected" ]
+then
+#echo "Done"
+echo $conected;
+sleep 3;
+
+else
+echo 'dcm com erro'
+ps aux | grep dcm | grep -v wlistdb | grep -v wkhtmltopdf | grep -v grep| grep -v S+| awk '{print $2}' |{ while read linha2;
+        do
+                echo $linha2;
+        kill -9 $linha2;
+        done
+                sleep 5
+                /etc/init.d/rundcm4chee start
+                echo $(date) "DCM caiu" >> /tmp/log_dcm
+                sleep 45
+
+}
+fi
+
+
+done
