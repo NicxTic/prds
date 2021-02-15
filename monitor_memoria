@@ -1,0 +1,26 @@
+#!/bin/bash
+#Define um valor padrão no IF para o minimo de memória, caso atinja, reinicia dcm e dropa as querys rodando no momento.
+#alterar o curl e se certificar que há o job de dropar query
+
+while :; do
+
+        free_m=$(free -m | grep "Mem" | awk '{print $7}')
+
+        echo $free_m;
+
+        if [ $free_m -lt 2000 ];
+        then
+                echo  "Mem too low"
+                killdcm;
+                curl https://smartris-cdi-cardiologia.ddns.net:4143/ris-job/traitor/dropa_query
+                sleep 5;
+                /etc/init.d/rundcm4chee start
+                date >> /tmp/log_mem
+                sleep 30;
+
+        else
+                echo "Mem Ok"
+                sleep 4;
+
+        fi
+done
