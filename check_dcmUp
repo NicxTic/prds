@@ -1,0 +1,11 @@
+#!/bin/bash
+#qtde=`ps aux | grep dcm4chee | wc -l`
+qtde=`/opt/repository/dcm/dcm4che/bin/dcmecho DCM4CHEE@localhost:11112 | wc -l`
+if [ $qtde -lt 5 ]
+then
+        eval "/usr/bin/killdcm"
+        eval "/etc/init.d/rundcm4chee start"
+        echo "reiniciado"
+else
+        echo "OK"
+fi
